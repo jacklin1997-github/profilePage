@@ -1,0 +1,31 @@
+body{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background-image:url('game.jpg') ;
+    background-size: cover;
+    font-family: sans-serif;
+    font-size: x-large;
+    font-style: italic;
+}
+h2{
+    color:chartreuse;
+}
+.grid {
+    align-self: center;
+	width: 606px;
+	height: 606px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.square {
+	height: 200px;
+	width: 200px;
+	border: solid whitesmoke 1px;
+}
+
+.mole {
+	background-image: url("mole.jpg");
+	background-size: cover;
+}
