@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let score = 0;
   const colors = ["orange", "red", "purple", "green", "blue"];
 
-  //The Tetrominoes
+  //四格骨牌：Ｌ、Ｚ、Ｔ、田、Ｉ
   const lTetromino = [
     [1, width + 1, width * 2 + 1, 2],
     [width, width + 1, width + 2, width * 2 + 2],
@@ -58,11 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log(theTetrominoes[0][0]);
 
-  //randomly select a Tetromino and its first rotation
+  //隨機選擇一種，並且以某中角度出現
   let random = Math.floor(Math.random() * theTetrominoes.length);
   let current = theTetrominoes[random][currentRotation];
 
-  //draw the Tetromino
+  //畫出四格骨牌
   function draw() {
     current.forEach((index) => {
       squares[currentPosition + index].classList.add("tetromino");
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //undraw the Tetromino
+  //消去
   function undraw() {
     current.forEach((index) => {
       squares[currentPosition + index].classList.remove("tetromino");
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //assign functions to keyCodes
+  //設定上下左右
   function control(e) {
     if (e.keyCode === 37) {
       moveLeft();
@@ -86,13 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
       rotate();
     } else if (e.keyCode === 39) {
       moveRight();
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === 32 || e.keyCode === 40) {
       moveDown();
     }
   }
-  document.addEventListener("keyup", control);
+  document.addEventListener("keydown", control);
 
-  //move down function
+  //往下的動畫
   function moveDown() {
     undraw();
     currentPosition += width;
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     freeze();
   }
 
-  //freeze function
+  //停止
   function freeze() {
     if (
       current.some((index) =>
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       current.forEach((index) =>
         squares[currentPosition + index].classList.add("taken")
       );
-      //start a new tetromino falling
+
       random = nextRandom;
       nextRandom = Math.floor(Math.random() * theTetrominoes.length);
       current = theTetrominoes[random][currentRotation];
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //move the tetromino left, unless is at the edge or there is a blockage
+  //往左移動，設定邊界
   function moveLeft() {
     undraw();
     const isAtLeftEdge = current.some(
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     draw();
   }
 
-  //move the tetromino right, unless is at the edge or there is a blockage
+  // 往右移動，設定邊界
   function moveRight() {
     undraw();
     const isAtRightEdge = current.some(
@@ -166,13 +166,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkRotatedPosition(P) {
-    P = P || currentPosition; //get current position.  Then, check if the piece is near the left side.
+    P = P || currentPosition;
     if ((P + 1) % width < 4) {
-      //add 1 because the position index can be 1 less than where the piece is (with how they are indexed).
       if (isAtRight()) {
-        //use actual position to check if it's flipped over to right side
-        currentPosition += 1; //if so, add one to wrap it back around
-        checkRotatedPosition(P); //check again.  Pass position from start, since long block might need to move more.
+        currentPosition += 1;
+        checkRotatedPosition(P);
       }
     } else if (P % width > 5) {
       if (isAtLeft()) {
@@ -182,37 +180,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //rotate the tetromino
+  //旋轉
   function rotate() {
     undraw();
     currentRotation++;
     if (currentRotation === current.length) {
-      //if the current rotation gets to 4, make it go back to 0
+      //四個一循環
       currentRotation = 0;
     }
     current = theTetrominoes[random][currentRotation];
     checkRotatedPosition();
     draw();
   }
-  /////////
-
-  //show up-next tetromino in mini-grid display
+  
+  //下一個骨牌 
   const displaySquares = document.querySelectorAll(".mini-grid div");
   const displayWidth = 4;
   const displayIndex = 0;
 
-  //the Tetrominos without rotations
+  //沒有旋轉的骨牌
   const upNextTetrominoes = [
-    [1, displayWidth + 1, displayWidth * 2 + 1, 2], //lTetromino
-    [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], //zTetromino
-    [1, displayWidth, displayWidth + 1, displayWidth + 2], //tTetromino
-    [0, 1, displayWidth, displayWidth + 1], //oTetromino
-    [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], //iTetromino
+    [1, displayWidth + 1, displayWidth * 2 + 1, 2], //l
+    [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], //z
+    [1, displayWidth, displayWidth + 1, displayWidth + 2], //t
+    [0, 1, displayWidth, displayWidth + 1], //o
+    [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], //i
   ];
 
-  //display the shape in the mini-grid display
+  //預告
   function displayShape() {
-    //remove any trace of a tetromino form the entire grid
     displaySquares.forEach((square) => {
       square.classList.remove("tetromino");
       square.style.backgroundColor = "";
@@ -224,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //add functionality to the button
+  //開始按鈕
   startBtn.addEventListener("click", () => {
     if (timerId) {
       clearInterval(timerId);
@@ -237,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  //add score
+  //分數
   function addScore() {
     for (let i = 0; i < 199; i += width) {
       const row = [
@@ -268,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //game over
+  //結束
   function gameOver() {
     if (
       current.some((index) =>
