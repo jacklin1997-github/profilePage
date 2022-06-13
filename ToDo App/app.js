@@ -1,44 +1,44 @@
-//Select DOM
+// DOM
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
 const filterOption = document.querySelector(".filter-todo");
 
-//Event Listeners
+//事件監聽
 document.addEventListener("DOMContentLoaded", getTodos);
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteTodo);
 filterOption.addEventListener("click", filterTodo);
 
-//Functions
+//功能
 
 function addTodo(e) {
-  //Prevent natural behaviour
+  //停止預先動作
   e.preventDefault();
-  //Create todo div
+  //建立div
   const todoDiv = document.createElement("div");
   todoDiv.classList.add("todo");
-  //Create list
+  //建立 list
   const newTodo = document.createElement("li");
   newTodo.innerText = todoInput.value;
-  //Save to local - do this last
-  //Save to local
+  //儲存
   saveLocalTodos(todoInput.value);
   //
   newTodo.classList.add("todo-item");
   todoDiv.appendChild(newTodo);
   todoInput.value = "";
-  //Create Completed Button
+  //完成按鈕
+
   const completedButton = document.createElement("button");
   completedButton.innerHTML = `<i class="fas fa-check"></i>`;
   completedButton.classList.add("complete-btn");
   todoDiv.appendChild(completedButton);
-  //Create trash button
+  //刪除按鈕
+
   const trashButton = document.createElement("button");
   trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
   trashButton.classList.add("trash-btn");
   todoDiv.appendChild(trashButton);
-  //attach final Todo
   todoList.appendChild(todoDiv);
 }
 
@@ -46,10 +46,8 @@ function deleteTodo(e) {
   const item = e.target;
 
   if (item.classList[0] === "trash-btn") {
-    // e.target.parentElement.remove();
     const todo = item.parentElement;
     todo.classList.add("fall");
-    //at the end
     removeLocalTodos(todo);
     todo.addEventListener("transitionend", (e) => {
       todo.remove();
@@ -62,12 +60,14 @@ function deleteTodo(e) {
   }
 }
 
+// 分類功能
 function filterTodo(e) {
   const todos = todoList.childNodes;
   todos.forEach(function (todo) {
     switch (e.target.value) {
       case "all":
         todo.style.display = "flex";
+
         break;
       case "completed":
         if (todo.classList.contains("completed")) {
@@ -75,6 +75,7 @@ function filterTodo(e) {
         } else {
           todo.style.display = "none";
         }
+
         break;
       case "uncompleted":
         if (!todo.classList.contains("completed")) {
@@ -82,6 +83,7 @@ function filterTodo(e) {
         } else {
           todo.style.display = "none";
         }
+        break;
     }
   });
 }
@@ -116,26 +118,26 @@ function getTodos() {
     todos = JSON.parse(localStorage.getItem("todos"));
   }
   todos.forEach(function (todo) {
-    //Create todo div
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
-    //Create list
+
     const newTodo = document.createElement("li");
     newTodo.innerText = todo;
+
     newTodo.classList.add("todo-item");
     todoDiv.appendChild(newTodo);
     todoInput.value = "";
-    //Create Completed Button
+
     const completedButton = document.createElement("button");
     completedButton.innerHTML = `<i class="fas fa-check"></i>`;
     completedButton.classList.add("complete-btn");
     todoDiv.appendChild(completedButton);
-    //Create trash button
+
     const trashButton = document.createElement("button");
     trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
     trashButton.classList.add("trash-btn");
     todoDiv.appendChild(trashButton);
-    //attach final Todo
+
     todoList.appendChild(todoDiv);
   });
 }
