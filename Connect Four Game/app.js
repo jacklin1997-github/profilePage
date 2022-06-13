@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
           square4.classList.contains('player-one')
         )
         {
-          result.innerHTML = 'Player One Wins!'
+          result.innerHTML = '玩家一獲勝!'
         }
         //check those squares to see if they all have the class of player-two
         if (
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
           square4.classList.contains('player-two')
         )
         {
-          result.innerHTML = 'Player Two Wins!'
+          result.innerHTML = '玩家二獲勝!'
         }
       }
     }
