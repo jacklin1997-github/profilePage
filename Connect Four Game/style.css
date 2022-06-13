@@ -1,0 +1,28 @@
+
+.grid {
+    border: 1px solid;
+    height: 120px;
+    width: 140px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .grid div {
+    height: 20px;
+    width: 20px;
+  }
+  
+  .player-one {
+    background-color: red;
+    border-radius: 10px;
+  }
+  
+  .player-two {
+    background-color: blue;
+    border-radius: 10px;
+  }
+ body{
+    font-family: sans-serif;
+    font-size: larger;
+    font-weight:bolder;
+}
