@@ -1,4 +1,13 @@
+//在瀏覽器載入網頁時，會先由上而下分析HTML檔案，因此，如果嘗試在head標籤內的script去操作DOM
+//會因為DOM的結構尚未形成，而無法。
+
 document.addEventListener("DOMContentLoaded", () => {
+  //Dom Ready!!  也可以使用"load"
+// 網頁的生命週期：
+// 1.DOMContentLoaded
+// 2.Load
+// 3.Beforeunload
+// 4.Unload
   const grid = document.querySelector(".grid");
   let squares = Array.from(document.querySelectorAll(".grid div"));
   const scoreDisplay = document.querySelector("#score");
@@ -9,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let score = 0;
   const colors = ["orange", "red", "purple", "green", "blue"];
 
-  //四格骨牌：Ｌ、Ｚ、Ｔ、田、Ｉ
+  //四格骨牌：Ｌ、Ｚ、Ｔ、田、Ｉ，每一種都有四個旋轉形式。
   const lTetromino = [
     [1, width + 1, width * 2 + 1, 2],
     [width, width + 1, width + 2, width * 2 + 2],

@@ -9,7 +9,9 @@ let aliensRemoved = [];
 let result = 0;
 
 for (i = 0; i <= 225; i++) {
+  //取得標的
   const square = document.createElement("div");
+  //將square放入grid
   grid.appendChild(square);
 }
 
@@ -33,6 +35,7 @@ const invadersRemove = function () {
     squares[alienInvaders[i]].classList.remove("invaders");
   }
 };
+
 squares[currentShooterIndex].classList.add("shooter");
 
 const moveShooter = function (e) {
@@ -56,6 +59,9 @@ const moveAlienInvaders = function () {
   const atRightEdge =
     alienInvaders[alienInvaders.length - 1] % width === width - 1;
   invadersRemove();
+
+
+  //利用正負1來掌控方向
 
   if (atRightEdge && goingRight) {
     for (let i = 0; i < alienInvaders.length; i++) {
